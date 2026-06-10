@@ -28,13 +28,6 @@ RUN apt-get update && apt-get install -y \
     procps \
     && rm -rf /var/lib/apt/lists/*
 
-# Install tokei
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-RUN cargo install tokei
-
 # Install JDK and Maven
 RUN apt-get update && \
     apt-get install -y \
@@ -58,6 +51,13 @@ RUN useradd -ms /bin/bash developer && \
 
 USER developer
 WORKDIR /workspace
+
+# Install tokei
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+ENV PATH="~/.cargo/bin:${PATH}"
+
+RUN cargo install tokei
 
 # Useful defaults
 RUN git config --global pull.rebase false
